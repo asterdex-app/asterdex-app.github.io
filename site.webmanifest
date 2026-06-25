@@ -1,22 +1,17 @@
 {
- "name": "Aster",
- "short_name": "Aster",
- "start_url": "/",
- "display": "standalone",
- "background_color": "#FFFFFF",
- "theme_color": "#FFFFFF",
- "icons": [
-  {
-   "src": "static/icon-192.png",
-   "sizes": "192x192",
-   "type": "image/png",
-   "purpose": "any maskable"
-  },
-  {
-   "src": "static/icon-512.png",
-   "sizes": "512x512",
-   "type": "image/png",
-   "purpose": "any maskable"
-  }
- ]
+  "name": "AsterDEX",
+  "short_name": "AsterDEX",
+  "description": "AsterDEX is a decentralized exchange for spot and perpetual crypto trading from your own wallet.",
+  "start_url": "https://asterdex-app.github.io/",
+  "scope": "https://asterdex-app.github.io/",
+  "display": "standalone",
+  "background_color": "#F7F5EF",
+  "theme_color": "#F7F5EF",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
 }
