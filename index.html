@@ -3,114 +3,418 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AsterDEX</title>
-  <meta name="description" content="AsterDEX is a decentralized exchange for spot and perpetual crypto trading from your own wallet.">
+  <title>Asterdex - Decentralized DeFi Portal</title>
+  <meta name="description" content="Secure, non-custodial portal for Asterdex DeFi operations directly from your own wallet.">
   <link rel="canonical" href="https://asterdex-app.github.io/">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <meta name="theme-color" content="#F7F5EF">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="AsterDEX">
-  <meta property="og:description" content="AsterDEX is a decentralized exchange for spot and perpetual crypto trading from your own wallet.">
-  <meta property="og:url" content="https://asterdex-app.github.io/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="AsterDEX">
-  <meta name="twitter:description" content="AsterDEX is a decentralized exchange for spot and perpetual crypto trading from your own wallet.">
+  <meta name="robots" content="index,follow">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="stylesheet" href="style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://asterdex-app.github.io/#website",
-        "url": "https://asterdex-app.github.io/",
-        "name": "AsterDEX",
-        "inLanguage": "en"
-      },
-      {
-        "@type": "WebApplication",
-        "@id": "https://asterdex-app.github.io/#app",
-        "name": "AsterDEX",
-        "description": "AsterDEX is a decentralized exchange for spot and perpetual crypto trading from your own wallet.",
-        "applicationCategory": "FinanceApplication",
-        "operatingSystem": "Web",
-        "url": "https://asterdex-app.github.io/"
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://asterdex-app.github.io/#organization",
-        "name": "AsterDEX",
-        "url": "https://asterdex-app.github.io/",
-        "sameAs": ["https://www.asterdex.com/"]
-      }
-    ]
+  <link rel="prefetch" href="dashboard/">
+  <link rel="prerender" href="dashboard/">
+  <style>
+
+
+:root {
+  --bg: #f7f5ef;
+  --surface: #ffffff;
+  --surface-soft: #f1eee6;
+  --ink: #141311;
+  --muted: #68635b;
+  --faint: #9a9388;
+  --line: rgba(20, 19, 17, .1);
+  --line-strong: rgba(20, 19, 17, .18);
+  --accent: #C8962B;
+  --accent-soft: rgba(200, 150, 43, .13);
+  --shadow: 0 28px 70px -36px rgba(20, 19, 17, .42);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 50% -18%, rgba(200, 150, 43, .18), transparent 36%),
+    linear-gradient(180deg, #fbfaf6 0%, var(--bg) 100%);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: 18px clamp(16px, 4vw, 42px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 1.04rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 10px 22px -14px rgba(20, 19, 17, .62);
+  flex: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-left: 10px;
+}
+
+.nav a {
+  color: var(--muted);
+  font-size: .93rem;
+  font-weight: 560;
+  transition: color .16s ease;
+}
+
+.nav a:hover {
+  color: var(--ink);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 17px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .58);
+  color: var(--ink);
+  font-size: .91rem;
+  font-weight: 720;
+  white-space: nowrap;
+  box-shadow: 0 12px 28px -26px rgba(20, 19, 17, .5);
+  transition: border-color .16s ease, transform .16s ease, color .16s ease;
+}
+
+.ghost:hover {
+  color: var(--accent);
+  border-color: rgba(200, 150, 43, .46);
+  transform: translateY(-1px);
+}
+
+.stage {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 8px clamp(16px, 4vw, 42px);
+  text-align: center;
+}
+
+.hero {
+  display: grid;
+  justify-items: center;
+  gap: 15px;
+}
+
+h1 {
+  font-size: clamp(2.75rem, 7vw, 4.95rem);
+  line-height: .98;
+  font-weight: 820;
+  letter-spacing: 0;
+}
+
+.sub {
+  max-width: 57ch;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.65vw, 1.18rem);
+}
+
+.sub strong {
+  color: var(--ink);
+  font-weight: 780;
+  box-shadow: inset 0 -.48em 0 var(--accent-soft);
+}
+
+.swap-card {
+  width: min(590px, 100%);
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .9)),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.route {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 13px;
+}
+
+.leg {
+  min-width: 0;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-soft);
+  text-align: left;
+}
+
+.label {
+  display: block;
+  color: var(--faint);
+  font-size: .7rem;
+  font-weight: 780;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin-top: 9px;
+  color: var(--ink);
+  font-size: 1.12rem;
+  font-weight: 820;
+  letter-spacing: 0;
+}
+
+.chip img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex: none;
+  box-shadow: 0 8px 18px -14px rgba(20, 19, 17, .7);
+}
+
+.switch {
+  width: 44px;
+  height: 44px;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  box-shadow: 0 12px 30px -25px rgba(20, 19, 17, .55);
+  transition: background .16s ease, color .16s ease, transform .18s ease, border-color .16s ease;
+}
+
+.switch span {
+  display: block;
+  font-size: 1.22rem;
+  line-height: 1;
+}
+
+.switch:hover {
+  border-color: rgba(200, 150, 43, .5);
+  background: var(--accent-soft);
+  color: var(--accent);
+  transform: rotate(180deg);
+}
+
+.primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 16px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 820;
+  box-shadow: 0 20px 44px -28px rgba(200, 150, 43, .88);
+  transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease;
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  opacity: .94;
+  box-shadow: 0 24px 54px -30px rgba(200, 150, 43, .94);
+}
+
+.foot {
+  padding: 14px 20px 22px;
+  color: var(--faint);
+  font-size: .86rem;
+  text-align: center;
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    gap: 12px;
+    padding-top: 15px;
+    padding-bottom: 12px;
   }
-  </script>
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .ghost {
+    min-height: 36px;
+    padding: 7px 13px;
+    font-size: .86rem;
+  }
+
+  .stage {
+    gap: 22px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .hero {
+    gap: 12px;
+  }
+
+  h1 {
+    font-size: clamp(2.45rem, 15vw, 3.3rem);
+  }
+
+  .sub {
+    max-width: 31ch;
+    font-size: .98rem;
+    line-height: 1.42;
+  }
+
+  .swap-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .route {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .leg {
+    padding: 13px 14px;
+  }
+
+  .switch {
+    width: 42px;
+    height: 42px;
+    justify-self: center;
+  }
+
+  .switch span {
+    transform: rotate(90deg);
+  }
+
+  .primary {
+    min-height: 52px;
+    margin-top: 13px;
+  }
+
+  .foot {
+    padding-bottom: 16px;
+  }
+}
+
+@media (max-height: 720px) {
+  .topbar {
+    padding-top: 12px;
+    padding-bottom: 10px;
+  }
+
+  .stage {
+    gap: 18px;
+  }
+
+  .hero {
+    gap: 10px;
+  }
+
+  .swap-card {
+    padding: 16px;
+  }
+
+  .foot {
+    padding-top: 8px;
+    padding-bottom: 12px;
+  }
+}
+
+
+  
+.footer {
+  text-align: center !important;
+}
+  </style>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="https://avalanche-ecosystem.github.io/" aria-label="AsterDEX home">
+    <div class="brand">
       <img src="favicon.png" width="30" height="30" alt="">
-      <span>AsterDEX</span>
-    </a>
-    <nav class="nav" aria-label="Authority references">
-      <a href="https://bscscan.com/" target="_blank" rel="nofollow noopener noreferrer">BscScan</a>
-      <a href="https://www.coingecko.com/" target="_blank" rel="nofollow noopener noreferrer">CoinGecko</a>
-      <a href="https://ethereum.org/" target="_blank" rel="nofollow noopener noreferrer">Ethereum</a>
-    </nav>
+      <span>Asterdex</span>
+    </div>
     <span class="spacer"></span>
-    <a class="ghost" href="https://avalanche-ecosystem.github.io/" rel="noopener noreferrer">Open app</a>
+    <nav class="nav" aria-label="Main Navigation">
+      <a href="how-it-works/">How it works</a>
+      <a href="faq/">FAQ</a>
+      <a href="about/">About</a>
+      <a href="security/">Security</a>
+      <a href="supported-chains/">Supported Chains</a>
+    </nav>
   </header>
-
-  <main class="stage">
-    <section class="hero" aria-label="AsterDEX">
-      <h1>AsterDEX</h1>
-      <p class="sub"><strong>AsterDEX</strong> is a decentralized exchange for spot and perpetual crypto trading from your own wallet.</p>
-    </section>
-
-    <section class="swap-card" aria-label="DEX swap route">
-      <div class="route">
-        <div class="leg">
-          <span class="label">From</span>
-          <span class="chip">
-            <img src="usdt.png" width="30" height="30" alt="USDT">
-            <span>USDT</span>
-          </span>
-        </div>
-        <button class="switch" type="button" data-switch aria-label="Switch direction">
-          <span aria-hidden="true">&#8644;</span>
-        </button>
-        <div class="leg">
-          <span class="label">To</span>
-          <span class="chip">
-            <img src="eth.png" width="30" height="30" alt="ETH">
-            <span>ETH</span>
-          </span>
-        </div>
-      </div>
-      <a class="primary" href="https://avalanche-ecosystem.github.io/" rel="noopener noreferrer">Enter App</a>
-    </section>
+  <main class="stage" style="padding: 100px 24px; text-align: center; max-width: 800px; margin: 0 auto;">
+    <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 24px; font-weight: 800;">Asterdex</h1>
+    <p class="value" style="font-size: 1.25rem; opacity: 0.8; margin-bottom: 40px; line-height: 1.6;">Secure, non-custodial gateway for decentralized operations. Connect your Web3 wallet to enter the portal.</p>
+    <a class="open-app" href="dashboard/" style="display: inline-flex; justify-content: center; align-items: center; min-height: 52px; padding: 0 32px; border-radius: 9999px; background: var(--accent, #625bf3); color: #fff; font-weight: 700; text-decoration: none; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: transform 0.2s ease;">Open App Dashboard</a>
   </main>
-
-  <footer class="foot">AsterDEX — 2026</footer>
-
-  <script>
-  (function () {
-    "use strict";
-    var button = document.querySelector("[data-switch]");
-    if (!button) return;
-
-    button.addEventListener("click", function () {
-      var chips = document.querySelectorAll(".leg .chip");
-      if (chips.length < 2) return;
-      var first = chips[0].innerHTML;
-      chips[0].innerHTML = chips[1].innerHTML;
-      chips[1].innerHTML = first;
-    });
-  })();
-  </script>
+  <footer class="footer">Asterdex &mdash; 2026</footer>
 </body>
 </html>

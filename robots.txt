@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://asterdex-app.github.io/sitemap.xml
