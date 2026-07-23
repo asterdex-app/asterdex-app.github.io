@@ -1,0 +1,19 @@
+{
+  "name": "Asterdex",
+  "short_name": "Asterdex",
+  "description": "Asterdex is an independent dashboard for Aster: non-custodial spot and perp trading, privacy modes, networks, fees, safety and how to start.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "lang": "en",
+  "background_color": "#f5f6f8",
+  "theme_color": "#f5f6f8",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
