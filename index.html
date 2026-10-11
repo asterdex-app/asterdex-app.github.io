@@ -1,1107 +1,231 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AsterDEX — Decentralized Exchange for Spot Swaps & Perps</title>
-<meta name="description" content="AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.">
-<link rel="canonical" href="https://asterdex-app.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AsterDEX">
-<meta property="og:description" content="AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.">
-<meta property="og:url" content="https://asterdex-app.github.io/">
-<meta property="og:image" content="https://asterdex-app.github.io/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AsterDEX">
-<meta name="twitter:description" content="AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.">
-<meta name="twitter:image" content="https://asterdex-app.github.io/og.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AsterDEX — Decentralized Exchange for Spot Swaps & Perps</title>
+  <meta name="description" content="AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.">
+  <link rel="canonical" href="https://asterdex-app.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AsterDEX">
+  <meta property="og:description" content="AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.">
+  <meta property="og:url" content="https://asterdex-app.github.io/">
+  <meta property="og:image" content="https://asterdex-app.github.io/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AsterDEX">
+  <meta name="twitter:description" content="AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.">
+  <meta name="twitter:image" content="https://asterdex-app.github.io/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://asterdex-app.github.io/#website", "url": "https://asterdex-app.github.io/", "name": "AsterDEX — Decentralized Exchange for Spot Swaps & Perps"}, {"@type": "WebPage", "@id": "https://asterdex-app.github.io/#webpage", "url": "https://asterdex-app.github.io/", "name": "AsterDEX — Decentralized Exchange for Spot Swaps & Perps", "isPartOf": {"@id": "https://asterdex-app.github.io/#website"}, "description": "AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.", "datePublished": "2026-10-10", "dateModified": "2026-10-10"}, {"@type": "SoftwareApplication", "name": "AsterDEX", "applicationCategory": "FinanceApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://asterdex-app.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Swaps"}, {"@type": "ListItem", "position": 3, "name": "AsterDEX"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is AsterDEX?", "acceptedAnswer": {"@type": "Answer", "text": "AsterDEX is a decentralized exchange that combines spot token swaps with on-chain perpetual futures trading, settled through smart contracts rather than a custodial order book."}}, {"@type": "Question", "name": "Does AsterDEX require an account?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only requires a self-custody wallet connection — there is no sign-up, password or custodial balance held by the platform."}}, {"@type": "Question", "name": "What order types does AsterDEX support?", "acceptedAnswer": {"@type": "Answer", "text": "It supports market and limit orders for both spot swaps and leveraged perpetual positions, along with the margin and funding mechanics perpetual trading requires."}}, {"@type": "Question", "name": "How does AsterDEX charge fees?", "acceptedAnswer": {"@type": "Answer", "text": "It charges a trading fee per spot swap and per perpetual order, plus a periodic funding payment on open perpetual positions, all paid in the relevant collateral asset or network gas."}}, {"@type": "Question", "name": "Is AsterDEX self-custodial?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every trade is signed from the trader's own wallet, and the platform never takes possession of the underlying assets at any point."}}, {"@type": "Question", "name": "Can I trade perpetuals and spot assets in the same place on AsterDEX?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It links a spot swap engine with a perpetual futures layer, so a trader can swap into collateral and open a leveraged position without switching platforms."}}, {"@type": "Question", "name": "What networks does AsterDEX run on?", "acceptedAnswer": {"@type": "Answer", "text": "It deploys on EVM-compatible networks chosen for low gas and fast settlement, so both spot swaps and perpetual positions can be adjusted quickly and cheaply."}}]}]}</script>
-<style>
-:root{--bg:#FAFBFD;--surface:#FFFFFF;--text:#111725;--muted:#586072;--accent:#4F46E5;--accent-ink:#FFFFFF;--radius:12px;--display:"Sora";--body:"Inter"}
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-html {
-  min-width: 280px;
-  scroll-behavior: smooth;
-  scroll-padding-top: 2rem;
-  background: var(--bg);
-  -webkit-text-size-adjust: 100%;
-}
-body {
-  margin: 0;
-  color: var(--text);
-  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 42rem), var(--bg);
-  font-family: var(--body);
-  font-size: 1rem;
-  line-height: 1.65;
-  overflow-wrap: anywhere;
-  -webkit-font-smoothing: antialiased;
-}
-::selection {
-  color: var(--accent-ink);
-  background: var(--accent);
-}
-a {
-  color: var(--accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-}
-a:hover {
-  color: color-mix(in srgb, var(--accent) 76%, var(--text));
-}
-a:focus-visible,
-input:focus-visible,
-summary:focus-visible,
-[tabindex]:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 5px;
-}
-img,
-svg {
-  max-width: 100%;
-  vertical-align: middle;
-}
-img {
-  height: auto;
-}
-input,
-output {
-  font-family: var(--body);
-}
-h1,
-h2,
-h3,
-h4 {
-  color: var(--text);
-  font-family: var(--display);
-  text-wrap: balance;
-}
-p,
-ul,
-ol,
-blockquote,
-figure {
-  margin: 0;
-}
-.c463541 {
-  width: min(100% - 4rem, 1120px);
-  margin-inline: auto;
-}
-.cd6b123 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  min-height: 92px;
-  border-bottom: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
-}
-.c10fd18 {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: var(--text);
-  font-family: var(--display);
-  font-size: 1.2rem;
-  font-weight: 750;
-  letter-spacing: -0.045em;
-}
-.c766609 {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--accent) 23%, transparent);
-  border-radius: calc(var(--radius) * 0.55);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
-  font-size: 1.4rem;
-  line-height: 1;
-}
-.ca4765b {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  min-height: 42px;
-  padding: 0.55rem 1.1rem;
-  border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
-  border-radius: calc(var(--radius) * 0.65);
-  color: var(--text);
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  font-size: 0.85rem;
-  font-weight: 650;
-  text-decoration: none;
-}
-.ca4765b:hover {
-  color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
-}
-.c6d7f5f {
-  padding-block: 1.4rem 0.5rem;
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-.c1abc64 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.45rem 0.7rem;
-  margin: 0;
-  padding: 0;
-  color: var(--muted);
-  list-style: none;
-}
-.c1abc64 ol,
-.c1abc64 ul {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.45rem 0.7rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.c1abc64 li {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-.c1abc64 li + li::before {
-  content: "/";
-  color: color-mix(in srgb, var(--muted) 60%, transparent);
-}
-.c1abc64 a {
-  color: var(--muted);
-  text-decoration: none;
-}
-.c1abc64 a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
-.c1abc64 [aria-current="page"] {
-  color: var(--text);
-}
-.c78ee6a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: clamp(1.5rem, 3.5vw, 2.75rem);
-  text-align: center;
-}
-.cfca351 {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-bottom: 1.25rem;
-  padding: 0.35rem 0.8rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  border-radius: calc(var(--radius) * 2);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.cfca351::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
-}
-.c78ee6a h1 {
-  max-width: 960px;
-  margin: 0;
-  font-size: clamp(2.3rem, 5vw, 4.2rem);
-  font-weight: 650;
-  line-height: 1.06;
-  letter-spacing: -0.06em;
-}
-.c78ee6a h1 em,
-.c78ee6a h1 strong,
-.c78ee6a h1 span {
-  color: var(--accent);
-}
-.c78ee6a h1 em {
-  font-style: normal;
-}
-.c3ffe64 {
-  max-width: 720px;
-  margin: 1.1rem auto 0;
-  color: var(--muted);
-  font-size: clamp(1rem, 1.65vw, 1.15rem);
-  line-height: 1.85;
-  text-wrap: pretty;
-}
-.c941f4b {
-  position: relative;
-  isolation: isolate;
-  width: 100%;
-  margin-top: clamp(1.25rem, 2.5vw, 2rem);
-  padding: clamp(1.2rem, 3.5vw, 2.6rem);
-  border: 1px solid color-mix(in srgb, var(--accent) 19%, var(--surface));
-  border-radius: var(--radius);
-  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 5%, var(--surface)), var(--surface) 48%);
-  box-shadow: 0 24px 65px -24px color-mix(in srgb, var(--text) 21%, transparent), 0 4px 14px -7px color-mix(in srgb, var(--accent) 16%, transparent);
-  text-align: left;
-}
-.c941f4b::before {
-  position: absolute;
-  inset: -1px 12% auto;
-  height: 2px;
-  content: "";
-  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 0%, transparent), color-mix(in srgb, var(--accent) 65%, transparent), color-mix(in srgb, var(--accent) 0%, transparent));
-}
-.ccbad54 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem 1rem;
-  margin-bottom: 1rem;
-}
-.ccbad54 h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 650;
-  letter-spacing: -0.035em;
-}
-.ccbad54 p {
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-.cb29b26 {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: stretch;
-  gap: 1rem;
-}
-.c870f3d {
-  min-width: 0;
-  padding: 1.4rem 1.5rem 1.1rem;
-  border: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-  border-radius: calc(var(--radius) * 0.7);
-  background: color-mix(in srgb, var(--bg) 65%, var(--surface));
-  transition: border-color 160ms ease, box-shadow 160ms ease;
-}
-.c870f3d:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 9%, transparent);
-}
-.c9f4c19 {
-  border-color: color-mix(in srgb, var(--accent) 18%, transparent);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--surface)), color-mix(in srgb, var(--accent) 3%, var(--surface)));
-}
-.c8468dc {
-  display: block;
-  margin-bottom: 0.65rem;
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 550;
-}
-#amount {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  color: var(--text);
-  background: color-mix(in srgb, var(--surface) 0%, transparent);
-  font-family: var(--body);
-  font-size: clamp(1.7rem, 3vw, 2.65rem);
-  font-weight: 550;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.3;
-  letter-spacing: -0.045em;
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
-#amount::-webkit-inner-spin-button,
-#amount::-webkit-outer-spin-button {
-  margin: 0;
-  -webkit-appearance: none;
-}
-#amount::placeholder {
-  color: var(--muted);
-  opacity: 0.65;
-}
-#amount:focus-visible {
-  outline-offset: 3px;
-  outline-width: 2px;
-}
-#amount[aria-invalid="true"] {
-  text-decoration: underline wavy;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-}
-#received {
-  display: block;
-  min-height: 1.3em;
-  color: var(--text);
-  font-size: clamp(1.7rem, 3vw, 2.65rem);
-  font-weight: 550;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.3;
-  letter-spacing: -0.045em;
-  overflow-wrap: anywhere;
-}
-.c5c815c {
-  display: block;
-  margin-top: 0.6rem;
-  color: var(--muted);
-  font-size: 0.73rem;
-  line-height: 1.5;
-}
-.c5a7780 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding-inline: 0.15rem;
-}
-.c02a2fd {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  width: 48px;
-  min-height: 48px;
-  padding: 0.4rem;
-  border: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
-  border-radius: calc(var(--radius) * 0.55);
-  background: var(--surface);
-  box-shadow: 0 4px 10px color-mix(in srgb, var(--text) 4%, transparent);
-  font-size: 0.65rem;
-  line-height: 1.2;
-  text-align: center;
-}
-.c02a2fd img,
-.c02a2fd svg {
-  display: block;
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-}
-.c800262 {
-  color: var(--accent);
-  font-size: 1.3rem;
-}
-.cf582de {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr);
-  align-items: center;
-  gap: 1.5rem 2.5rem;
-  margin-top: 1.4rem;
-}
-.c8f2400 {
-  display: grid;
-  gap: 0.45rem;
-  margin: 0;
-  font-size: 0.8rem;
-}
-.c8f2400 > div {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.c8f2400 dt {
-  color: var(--muted);
-}
-.c8f2400 dd {
-  margin: 0;
-  color: var(--text);
-  font-weight: 550;
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-.cf8cca8 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  min-height: 56px;
-  padding: 0.9rem 1.3rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 85%, var(--text));
-  border-radius: calc(var(--radius) * 0.65);
-  color: var(--accent-ink);
-  background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent) 85%, var(--text)));
-  box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 45%, transparent);
-  font-size: 0.9rem;
-  font-weight: 650;
-  text-decoration: none;
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-}
-.cf8cca8:hover {
-  transform: translateY(-2px);
-  color: var(--accent-ink);
-  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 94%, var(--text)), color-mix(in srgb, var(--accent) 78%, var(--text)));
-  box-shadow: 0 12px 28px -9px color-mix(in srgb, var(--accent) 50%, transparent);
-}
-.cf8cca8:active {
-  transform: translateY(0);
-}
-.cf8cca8 span:last-child {
-  font-size: 1.3rem;
-  line-height: 1;
-}
-.c43fb97 {
-  min-height: 1.5em;
-  margin-top: 0.8rem;
-  color: var(--muted);
-  font-size: 0.75rem;
-}
-.c43fb97[data-invalid="true"] {
-  color: var(--text);
-  font-weight: 600;
-}
-.c06e760 {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  margin-block: 1.6rem 4.5rem;
-  padding: 1rem 0;
-  border-block: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
-  list-style: none;
-}
-.c06e760 li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.75rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-align: center;
-}
-.c06e760 li + li {
-  border-left: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
-}
-.c06e760 li::before {
-  content: "✓";
-  color: var(--accent);
-  font-size: 0.85rem;
-  font-weight: 650;
-}
-.c78e5ae {
-  margin-bottom: 4rem;
-  padding: clamp(1.25rem, 3.5vw, 2.75rem);
-  border: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: 0 12px 35px -22px color-mix(in srgb, var(--text) 18%, transparent);
-}
-.caa8562 {
-  margin: 0 0 1.6rem;
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.045em;
-}
-.cfe16a2 {
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-}
-.c1f520b {
-  width: 100%;
-  border-collapse: collapse;
-  color: var(--text);
-  font-size: 0.92rem;
-  line-height: 1.65;
-  text-align: left;
-}
-.c1f520b caption {
-  margin-bottom: 1rem;
-  color: var(--muted);
-  font-size: 0.85rem;
-  text-align: left;
-}
-.c1f520b th,
-.c1f520b td {
-  padding: 1.05rem 1.2rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
-  vertical-align: top;
-}
-.c1f520b th {
-  width: 31%;
-  color: var(--muted);
-  font-weight: 500;
-}
-.c1f520b td {
-  font-weight: 550;
-}
-.c1f520b tr:nth-child(odd) {
-  background: color-mix(in srgb, var(--accent) 3%, var(--surface));
-}
-.c1f520b tr:last-child > * {
-  border-bottom: 0;
-}
-.c1f520b thead th {
-  color: var(--text);
-  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
-  font-weight: 650;
-}
-.ca0badf {
-  width: min(100%, 860px);
-  margin-inline: auto;
-}
-.c577925 {
-  margin-block: 0 3.6rem;
-  padding-bottom: 3.2rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
-  scroll-margin-top: 2rem;
-}
-.c4cc8d5 {
-  margin: 0 0 1.25rem;
-  color: var(--text);
-  font-family: var(--display);
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.045em;
-}
-.c4089bb {
-  color: var(--muted);
-  font-family: var(--body);
-  font-size: 1rem;
-  line-height: 1.85;
-}
-.c4089bb > * + * {
-  margin-top: 1.25rem;
-}
-.c4089bb h3,
-.c4089bb h4 {
-  margin-block: 2rem 0.75rem;
-  color: var(--text);
-  font-family: var(--display);
-  font-size: 1.3rem;
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.025em;
-}
-.c4089bb h4 {
-  font-size: 1.1rem;
-}
-.c4089bb strong,
-.c10bf9a strong {
-  color: var(--text);
-  font-weight: 650;
-}
-.c4089bb ul,
-.c4089bb ol,
-.c10bf9a ul,
-.c10bf9a ol {
-  padding-left: 1.4rem;
-}
-.c4089bb li,
-.c10bf9a li {
-  padding-left: 0.3rem;
-}
-.c4089bb li + li,
-.c10bf9a li + li {
-  margin-top: 0.65rem;
-}
-.c4089bb li::marker,
-.c10bf9a li::marker {
-  color: var(--accent);
-}
-.c4089bb li > ul,
-.c4089bb li > ol {
-  margin-top: 0.65rem;
-}
-.c4089bb blockquote {
-  padding: 1.25rem 1.5rem;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 calc(var(--radius) * 0.45) calc(var(--radius) * 0.45) 0;
-  color: var(--text);
-  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
-}
-.c4089bb blockquote p + p {
-  margin-top: 0.8rem;
-}
-.c4089bb table {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  border-collapse: collapse;
-  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
-  border-radius: calc(var(--radius) * 0.6);
-  background: var(--surface);
-  font-size: 0.88rem;
-  line-height: 1.6;
-  text-align: left;
-  overscroll-behavior-inline: contain;
-}
-.c4089bb table th,
-.c4089bb table td {
-  min-width: 8rem;
-  padding: 0.95rem 1.15rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
-  vertical-align: top;
-}
-.c4089bb table th {
-  color: var(--text);
-  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
-  font-weight: 600;
-}
-.c4089bb table tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--bg) 65%, var(--surface));
-}
-.c4089bb table tr:last-child td {
-  border-bottom: 0;
-}
-.c4089bb table caption {
-  padding: 0.85rem 1.15rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-align: left;
-}
-.c4089bb code,
-.c4089bb pre {
-  border-radius: calc(var(--radius) * 0.3);
-  color: var(--text);
-  background: color-mix(in srgb, var(--text) 5%, var(--surface));
-  font-family: var(--body);
-  font-size: 0.9em;
-}
-.c4089bb code {
-  padding: 0.15em 0.4em;
-}
-.c4089bb pre {
-  overflow-x: auto;
-  padding: 1.2rem;
-}
-.c4089bb pre code {
-  padding: 0;
-  background: color-mix(in srgb, var(--surface) 0%, transparent);
-}
-.c4089bb figure img {
-  display: block;
-  border-radius: calc(var(--radius) * 0.7);
-}
-.c4089bb figcaption {
-  margin-top: 0.7rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-.c99b17e {
-  margin-block: 1rem;
-  border: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-  border-radius: calc(var(--radius) * 0.7);
-  background: var(--surface);
-  transition: border-color 180ms ease, box-shadow 180ms ease;
-}
-.c99b17e:hover {
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-}
-.c99b17e[open] {
-  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
-  box-shadow: 0 8px 25px -14px color-mix(in srgb, var(--text) 15%, transparent);
-}
-.c4eb25e {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.3rem 1.5rem;
-  border-radius: calc(var(--radius) * 0.7);
-  color: var(--text);
-  font-family: var(--display);
-  font-size: 1.04rem;
-  font-weight: 550;
-  line-height: 1.5;
-  list-style: none;
-  cursor: pointer;
-}
-.c4eb25e::-webkit-details-marker {
-  display: none;
-}
-.c4eb25e::after {
-  display: grid;
-  flex: 0 0 27px;
-  width: 27px;
-  height: 27px;
-  place-items: center;
-  content: "+";
-  border-radius: 50%;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
-  font-family: var(--body);
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 1;
-}
-.c99b17e[open] > .c4eb25e::after {
-  content: "−";
-}
-.c10bf9a {
-  padding: 0 1.5rem 1.5rem;
-  color: var(--muted);
-  font-family: var(--body);
-  font-size: 0.95rem;
-  line-height: 1.85;
-}
-.c10bf9a > * + * {
-  margin-top: 1rem;
-}
-.c58fb1e {
-  margin-top: 4rem;
-  padding: 2.2rem 0 2.5rem;
-  border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-}
-.c58fb1e .caa8562 {
-  margin-bottom: 1.2rem;
-  font-size: 1.35rem;
-}
-.c1791d7 {
-  display: grid;
-  gap: 0.7rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.ce65b68 {
-  min-width: 0;
-  padding: 0.8rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
-  border-radius: calc(var(--radius) * 0.45);
-  color: var(--muted);
-  background: color-mix(in srgb, var(--surface) 70%, var(--bg));
-  font-size: 0.82rem;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-.ce65b68 a,
-a.ce65b68 {
-  color: var(--text);
-  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
-}
-.ce65b68 a:hover,
-a.ce65b68:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-}
-.c04dbef {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-  margin-top: 1rem;
-  padding-block: 1.7rem 2.2rem;
-  border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-.cdc8411 {
-  color: var(--text);
-  font-family: var(--display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-}
-.cf236f6 span {
-  color: var(--text);
-}
-@media (min-width: 1280px) {
-  .c78ee6a {
-    padding-top: 5.2rem;
-  }
-  .c941f4b {
-    margin-top: 3.4rem;
-  }
-  .c870f3d {
-    padding-block: 1.6rem 1.3rem;
-  }
-}
-@media (max-width: 900px) {
-  .c463541 {
-    width: min(100% - 3rem, 1120px);
-  }
-  .cb29b26 {
-    gap: 0.65rem;
-  }
-  .c870f3d {
-    padding: 1.1rem;
-  }
-  .c5a7780 {
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .c02a2fd {
-    width: 38px;
-    min-height: 38px;
-  }
-  .c02a2fd img,
-  .c02a2fd svg {
-    width: 25px;
-    height: 25px;
-  }
-  .c800262 {
-    line-height: 1;
-  }
-  .c06e760 {
-    margin-bottom: 3rem;
-  }
-}
-@media (max-width: 640px) {
-  html {
-    scroll-padding-top: 1rem;
-  }
-  .c463541 {
-    width: calc(100% - 2rem);
-  }
-  .cd6b123 {
-    min-height: 76px;
-    gap: 0.75rem;
-  }
-  .c10fd18 {
-    gap: 0.5rem;
-    font-size: 1.08rem;
-  }
-  .ca4765b {
-    min-height: 40px;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.78rem;
-  }
-  .c6d7f5f {
-    padding-top: 1rem;
-  }
-  .c78ee6a {
-    padding-top: 2.4rem;
-  }
-  .c78ee6a h1 {
-    font-size: clamp(2.25rem, 10vw, 3.6rem);
-    letter-spacing: -0.05em;
-  }
-  .c3ffe64 {
-    margin-top: 1.1rem;
-    line-height: 1.75;
-  }
-  .c941f4b {
-    padding: 1.1rem;
-  }
-  .ccbad54 {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.3rem;
-    margin-bottom: 1.1rem;
-  }
-  .cb29b26 {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.7rem;
-  }
-  .c870f3d {
-    padding: 1.2rem;
-  }
-  #amount,
-  #received {
-    font-size: clamp(1.8rem, 8vw, 2.6rem);
-  }
-  .c5a7780 {
-    flex-direction: row;
-    gap: 0.8rem;
-    padding-block: 0.1rem;
-  }
-  .c02a2fd {
-    width: 40px;
-    min-height: 40px;
-  }
-  .cf582de {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.2rem;
-    margin-top: 1.2rem;
-  }
-  .c8f2400 {
-    font-size: 0.78rem;
-  }
-  .cf8cca8 {
-    min-height: 54px;
-  }
-  .c06e760 {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-    margin-block: 1.4rem 2.6rem;
-    padding-block: 0.5rem;
-  }
-  .c06e760 li {
-    justify-content: flex-start;
-    padding: 0.7rem 1rem;
-  }
-  .c06e760 li + li {
-    border-top: 1px solid color-mix(in srgb, var(--text) 6%, transparent);
-    border-left: 0;
-  }
-  .c78e5ae {
-    margin-bottom: 2.8rem;
-    padding: 1.2rem;
-  }
-  .caa8562 {
-    margin-bottom: 1.2rem;
-  }
-  .c1f520b {
-    font-size: 0.82rem;
-  }
-  .c1f520b th,
-  .c1f520b td {
-    padding: 0.8rem 0.6rem;
-  }
-  .c1f520b th {
-    width: 38%;
-  }
-  .c577925 {
-    margin-bottom: 2.5rem;
-    padding-bottom: 2.3rem;
-  }
-  .c4089bb {
-    font-size: 0.95rem;
-    line-height: 1.8;
-  }
-  .c4089bb h3 {
-    font-size: 1.2rem;
-  }
-  .c4089bb blockquote {
-    padding: 1rem 1.15rem;
-  }
-  .c4eb25e {
-    gap: 0.9rem;
-    padding: 1.1rem;
-    font-size: 0.98rem;
-  }
-  .c10bf9a {
-    padding: 0 1.1rem 1.2rem;
-    font-size: 0.9rem;
-  }
-  .c58fb1e {
-    margin-top: 2.6rem;
-    padding-block: 1.8rem;
-  }
-  .c04dbef {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.45rem;
-    padding-block: 1.4rem 1.8rem;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    transition: none;
-    animation: none;
-  }
-  .cf8cca8:hover {
-    transform: none;
-  }
-}
-@media print {
-  body {
-    background: var(--bg);
-  }
-  .c463541,
-  .ca0badf {
-    width: 100%;
-  }
-  .ca4765b,
-  .cf8cca8 {
-    display: none;
-  }
-  .c78ee6a {
-    padding-top: 1.5rem;
-  }
-  .c78ee6a h1 {
-    font-size: 2.6rem;
-  }
-  .c941f4b,
-  .c78e5ae,
-  .c99b17e {
-    box-shadow: none;
-    break-inside: avoid;
-  }
-  .c4089bb h3,
-  .c4cc8d5 {
-    break-after: avoid;
-  }
-  .c4089bb table {
-    display: table;
-    overflow: visible;
-  }
-}
-</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://asterdex-app.github.io/#website", "url": "https://asterdex-app.github.io/", "name": "AsterDEX — Decentralized Exchange for Spot Swaps & Perps"}, {"@type": "WebPage", "@id": "https://asterdex-app.github.io/#webpage", "url": "https://asterdex-app.github.io/", "name": "AsterDEX — Decentralized Exchange for Spot Swaps & Perps", "isPartOf": {"@id": "https://asterdex-app.github.io/#website"}, "description": "AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.", "datePublished": "2026-10-11", "dateModified": "2026-10-11"}, {"@type": "SoftwareApplication", "name": "AsterDEX", "applicationCategory": "FinanceApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://asterdex-app.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Swaps"}, {"@type": "ListItem", "position": 3, "name": "AsterDEX"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is AsterDEX?", "acceptedAnswer": {"@type": "Answer", "text": "AsterDEX is a decentralized exchange that combines spot token swaps with on-chain perpetual futures trading, settled through smart contracts rather than a custodial order book."}}, {"@type": "Question", "name": "Does AsterDEX require an account?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only requires a self-custody wallet connection — there is no sign-up, password or custodial balance held by the platform."}}, {"@type": "Question", "name": "What order types does AsterDEX support?", "acceptedAnswer": {"@type": "Answer", "text": "It supports market and limit orders for both spot swaps and leveraged perpetual positions, along with the margin and funding mechanics perpetual trading requires."}}, {"@type": "Question", "name": "How does AsterDEX charge fees?", "acceptedAnswer": {"@type": "Answer", "text": "It charges a trading fee per spot swap and per perpetual order, plus a periodic funding payment on open perpetual positions, all paid in the relevant collateral asset or network gas."}}, {"@type": "Question", "name": "Is AsterDEX self-custodial?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every trade is signed from the trader's own wallet, and the platform never takes possession of the underlying assets at any point."}}, {"@type": "Question", "name": "Can I trade perpetuals and spot assets in the same place on AsterDEX?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It links a spot swap engine with a perpetual futures layer, so a trader can swap into collateral and open a leveraged position without switching platforms."}}, {"@type": "Question", "name": "What networks does AsterDEX run on?", "acceptedAnswer": {"@type": "Answer", "text": "It deploys on EVM-compatible networks chosen for low gas and fast settlement, so both spot swaps and perpetual positions can be adjusted quickly and cheaply."}}]}]}</script>
+  <style>
+    :root{--bg:#FAFBFD;--surface:#FFFFFF;--text:#111725;--muted:#586072;--accent:#4F46E5;--accent-ink:#FFFFFF;--radius:12px;--display:"Sora";--body:"Inter"}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 400 1rem/1.7 var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-underline-offset: .22em; }
+    a:hover { text-decoration-thickness: .12em; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+    h1, h2, h3, h4, h5, h6 { font-family: var(--display); line-height: 1.15; text-wrap: balance; }
+    p, h1, h2, h3 { margin-top: 0; }
+    img, svg { max-width: 100%; vertical-align: middle; }
+    .c463541 { width: min(1180px, calc(100% - 3rem)); margin-inline: auto; }
+    .c13e66a { position: absolute; z-index: 5; top: .5rem; left: 1rem; padding: .7rem 1rem; background: var(--surface); transform: translateY(-180%); border-radius: var(--radius); }
+    .c13e66a:focus { transform: translateY(0); }
+    .c4b6eb6 { border-bottom: 1px solid color-mix(in srgb,var(--text) 10%,transparent); }
+    .c5cd209 { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .cf2d9a9 { display: inline-flex; align-items: center; gap: .7rem; color: var(--text); font: 650 1.12rem/1.2 var(--display); text-decoration: none; }
+    .c98fc6d { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: calc(var(--radius) * .6); background: var(--accent); color: var(--accent-ink); }
+    .c955b32 { width: 1.2rem; height: 1.2rem; fill: none; stroke: var(--accent-ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+    .c6332eb { display: flex; align-items: center; gap: 1.8rem; }
+    .c6332eb > a { font-size: .88rem; font-weight: 600; text-decoration: none; }
+    .c6332eb > a:not(.c912c9c) { color: var(--muted); }
+    .c912c9c { display: inline-flex; align-items: center; justify-content: center; gap: .8rem; min-height: 52px; padding: .85rem 1.4rem; border: 1px solid color-mix(in srgb,var(--accent-ink) 12%,transparent); border-radius: var(--radius); background: linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 88%,var(--text))); color: var(--accent-ink); font: 650 .95rem/1.3 var(--body); text-decoration: none; box-shadow: 0 6px 18px color-mix(in srgb,var(--accent) 17%,transparent); transition: transform .18s ease, box-shadow .18s ease; }
+    .c912c9c:hover { transform: translateY(-2px); box-shadow: 0 9px 24px color-mix(in srgb,var(--accent) 25%,transparent); }
+    .c5cd209 .c912c9c { min-height: 42px; padding: .65rem 1rem; }
+    .cbfe7d9 { padding-block: 1rem 0; color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; }
+    .c1abc64 { color: var(--muted); }
+    .c1abc64 a, a.c1abc64 { color: var(--muted); text-decoration: none; }
+    .c1abc64 a:hover, a.c1abc64:hover { color: var(--accent); text-decoration: underline; }
+    .c1abc64 ol, .c1abc64 ul { display: flex; flex-wrap: wrap; gap: .5rem 1rem; padding: 0; margin: 0; list-style: none; }
+    .c78ee6a { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); gap: clamp(2rem,5vw,4.5rem); align-items: start; padding-block: 1.5rem 3rem; }
+    .cfca351 { display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 1.3rem; color: var(--accent); font-size: .86rem; font-weight: 600; }
+    .cfca351::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px color-mix(in srgb,var(--accent) 9%,transparent); }
+    h1 { margin-bottom: 1.4rem; font-size: clamp(2.5rem,4.7vw,4.35rem); font-weight: 600; letter-spacing: -.055em; overflow-wrap: anywhere; }
+    h1 em { color: var(--accent); font-style: normal; }
+    .c956e76 { max-width: 48ch; margin-bottom: 2rem; color: var(--muted); font-size: 1.08rem; line-height: 1.8; }
+    .c65f4cf { position: relative; min-width: 0; padding: clamp(1.1rem,2.4vw,1.5rem); border: 1px solid color-mix(in srgb,var(--accent) 20%,var(--surface)); border-radius: calc(var(--radius) * 1.6); background: linear-gradient(155deg,color-mix(in srgb,var(--accent) 7%,var(--surface)),var(--surface) 40%); box-shadow: 0 24px 64px color-mix(in srgb,var(--text) 9%,transparent),0 4px 12px color-mix(in srgb,var(--accent) 6%,transparent); }
+    .c7f153d { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .7rem; margin-bottom: 1rem; }
+    .c7f153d h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.035em; }
+    .c5323de { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .65rem; border: 1px solid color-mix(in srgb,var(--accent) 16%,transparent); border-radius: 999px; background: color-mix(in srgb,var(--accent) 8%,var(--surface)); color: var(--accent); font-size: .72rem; font-weight: 600; }
+    .c5323de::before { content: ""; width: .35rem; height: .35rem; border-radius: 50%; background: var(--accent); }
+    .route { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: .8rem; padding: .8rem; margin-bottom: 1rem; border: 1px solid color-mix(in srgb,var(--text) 9%,transparent); border-radius: var(--radius); background: var(--surface); }
+    .endpoint { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: .45rem; }
+    .endpoint:last-child { align-items: flex-end; }
+    .endpoint-label, .c8468dc { color: var(--muted); font-size: .78rem; font-weight: 500; }
+    .logo { display: flex; align-items: center; min-height: 36px; max-width: 100%; overflow-wrap: anywhere; font: 600 1rem/1.3 var(--display); }
+    .logo img, .logo svg { max-height: 36px; width: auto; max-width: 100%; object-fit: contain; }
+    .route-arrow { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: color-mix(in srgb,var(--accent) 9%,var(--surface)); }
+    .route-arrow .c955b32 { stroke: var(--accent); }
+    .c8468dc { display: block; margin-bottom: .5rem; color: var(--text); }
+    .amount-field { display: flex; align-items: center; gap: .75rem; padding: .8rem 1rem; border: 1px solid color-mix(in srgb,var(--text) 18%,transparent); border-radius: var(--radius); background: var(--bg); transition: border-color .18s ease; }
+    .amount-field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb,var(--accent) 12%,transparent); }
+    .amount-field input { width: 100%; min-width: 0; padding: .2rem 0; border: 0; background: var(--bg); color: var(--text); font: 550 1.6rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
+    .amount-field input:focus { outline: 0; }
+    .unit { color: var(--muted); font-size: .8rem; }
+    .c658420 { margin: .45rem 0 .85rem; color: var(--muted); font-size: .74rem; }
+    .field-error { margin: .5rem 0; color: var(--text); font-size: .8rem; font-weight: 600; }
+    [hidden] { display: none !important; }
+    .estimate { padding: 1rem; border-radius: var(--radius); background: linear-gradient(120deg,color-mix(in srgb,var(--accent) 12%,var(--surface)),color-mix(in srgb,var(--accent) 4%,var(--surface))); }
+    .estimate-label { margin-bottom: .25rem; color: var(--muted); font-size: .8rem; }
+    .estimate-value { display: block; color: var(--text); font: 600 clamp(1.7rem,3vw,2.5rem)/1.3 var(--display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .estimate-value small { color: var(--muted); font: 400 .8rem/1.4 var(--body); letter-spacing: 0; }
+    .estimate dl { display: grid; gap: .5rem; margin: .8rem 0 0; padding-top: .8rem; border-top: 1px solid color-mix(in srgb,var(--accent) 15%,transparent); font-size: .8rem; }
+    .estimate dl div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; }
+    .estimate dt { color: var(--muted); }
+    .estimate dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .method { margin-block: .7rem; color: var(--muted); font-size: .75rem; }
+    .method summary { width: fit-content; color: var(--text); cursor: pointer; }
+    .method p { margin: .65rem 0 0; }
+    .c65f4cf > .c912c9c { width: 100%; }
+    .c88fc0a { padding: .8rem 1rem; border: 1px solid color-mix(in srgb,var(--text) 10%,transparent); border-radius: var(--radius); background: var(--surface); }
+    .cb492f7 { margin-bottom: .45rem; }
+    .c0441ba { display: flex; align-items: center; gap: .75rem; }
+    .c4843c8 { flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; color: var(--text); font: 550 1.55rem/1.2 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .c4843c8:focus { outline: 0; }
+    .c140bc0 { position: relative; display: inline-flex; align-items: center; gap: .5rem; flex: none; padding: .4rem 1.5rem .4rem .5rem; border: 1px solid color-mix(in srgb,var(--text) 13%,transparent); border-radius: 999px; background: var(--bg); }
+    .c85943c { width: 22px; height: 22px; border-radius: 50%; object-fit: contain; flex: none; }
+    .c8bba4d { border: 0; background: transparent; color: var(--text); font: 600 .95rem/1 var(--body); cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .c8bba4d:focus { outline: 0; }
+    .c140bc0::after { content: ""; position: absolute; right: .7rem; width: .42rem; height: .42rem; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-2px) rotate(45deg); pointer-events: none; }
+    .c4bcdf5 { margin-top: .4rem; color: var(--muted); font-size: .78rem; font-variant-numeric: tabular-nums; }
+    .cbe886a { position: relative; z-index: 1; display: grid; place-items: center; width: 2.4rem; height: 2.4rem; margin: -.55rem auto; padding: 0; border: 3px solid var(--surface); border-radius: 50%; background: color-mix(in srgb,var(--accent) 13%,var(--surface)); color: var(--accent); cursor: pointer; transition: transform .2s ease, background .2s ease; }
+    .cbe886a svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .cbe886a:hover { transform: rotate(180deg); background: color-mix(in srgb,var(--accent) 20%,var(--surface)); }
+    .c186d1d { display: grid; gap: .5rem; margin: 1rem 0 0; padding-top: .9rem; border-top: 1px solid color-mix(in srgb,var(--accent) 15%,transparent); font-size: .82rem; }
+    .c186d1d div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem 1rem; }
+    .c186d1d dt { color: var(--muted); }
+    .c186d1d dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .c234eaf > .c912c9c { width: 100%; margin-top: 1.05rem; }
+    .cf3de0e { padding: 2rem; border: 1px solid color-mix(in srgb,var(--text) 10%,transparent); border-radius: calc(var(--radius) * 1.3); background: var(--surface); }
+    .caa8562 { margin-bottom: 1.3rem; font-size: 1.65rem; font-weight: 550; letter-spacing: -.035em; }
+    .cfe16a2 { max-width: 100%; overflow-x: auto; }
+    .c1f520b { width: 100%; border-collapse: collapse; text-align: left; font-size: .92rem; }
+    .c1f520b caption { padding-bottom: 1rem; text-align: left; color: var(--muted); }
+    .c1f520b th, .c1f520b td { padding: 1rem 1.1rem; border-bottom: 1px solid color-mix(in srgb,var(--text) 9%,transparent); vertical-align: top; overflow-wrap: anywhere; }
+    .c1f520b th { color: var(--muted); font-weight: 500; }
+    .c1f520b thead { background: color-mix(in srgb,var(--accent) 5%,var(--surface)); }
+    .c1f520b tbody tr:last-child > * { border-bottom: 0; }
+    .c0bec0f { max-width: 820px; padding-block: 4rem 2rem; }
+    .c577925 { margin-bottom: 3.3rem; }
+    .c4cc8d5 { margin: 0 0 1.1rem; font: 550 clamp(1.6rem,3vw,2.2rem)/1.2 var(--display); letter-spacing: -.035em; }
+    .c4089bb { color: var(--muted); line-height: 1.85; overflow-wrap: anywhere; }
+    .c4089bb p { margin-bottom: 1.2rem; }
+    .c4089bb strong, .c4089bb h3, .c4089bb h4 { color: var(--text); }
+    .c4089bb ul, .c4089bb ol { padding-left: 1.3rem; }
+    .c4089bb li { padding-left: .3rem; margin-block: .55rem; }
+    .c4089bb li::marker { color: var(--accent); }
+    .c4089bb blockquote { margin: 1.5rem 0; padding: 1rem 1.4rem; border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; background: var(--surface); color: var(--text); }
+    .c4089bb img { height: auto; border-radius: var(--radius); }
+    .c4089bb pre { overflow-x: auto; padding: 1rem; border-radius: var(--radius); background: var(--surface); }
+    .c4089bb code, .c4089bb pre { font-family: var(--body); }
+    .c99b17e { margin-block: .8rem; border: 1px solid color-mix(in srgb,var(--text) 11%,transparent); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .c4eb25e { position: relative; padding: 1.3rem 3.5rem 1.3rem 1.4rem; list-style: none; cursor: pointer; color: var(--text); font: 550 1.04rem/1.5 var(--display); }
+    .c4eb25e::-webkit-details-marker { display: none; }
+    .c4eb25e::after { content: "+"; position: absolute; right: 1.4rem; top: 1.2rem; color: var(--accent); font-size: 1.3rem; }
+    details[open] > .c4eb25e::after { content: "−"; }
+    .c99b17e[open] { border-color: color-mix(in srgb,var(--accent) 35%,var(--surface)); }
+    .c4eb25e:focus-visible { outline-offset: -5px; }
+    .c10bf9a { padding: 0 1.4rem 1.4rem; color: var(--muted); overflow-wrap: anywhere; }
+    .c10bf9a > :last-child { margin-bottom: 0; }
+    .c9fef50 { max-width: 820px; padding-block: 1.5rem 3.5rem; border-top: 1px solid color-mix(in srgb,var(--text) 12%,transparent); }
+    .c9fef50 .caa8562 { font-size: 1.25rem; }
+    .c1791d7 { margin: 0; padding-left: 1.25rem; color: var(--muted); font-size: .88rem; }
+    .ce65b68 { padding-block: .4rem; padding-left: .25rem; overflow-wrap: anywhere; }
+    .ce65b68 a, a.ce65b68 { color: var(--text); text-decoration-color: color-mix(in srgb,var(--accent) 45%,transparent); }
+    .ce65b68 a:hover, a.ce65b68:hover { color: var(--accent); }
+    .c376867 { border-top: 1px solid color-mix(in srgb,var(--text) 10%,transparent); }
+    .c67a47d { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; min-height: 96px; padding-block: 1.5rem; color: var(--muted); font-size: .8rem; }
+    .c67a47d p { margin: 0; }
+    .c67a47d a { color: var(--muted); }
+    @media (max-width: 850px) { .c78ee6a { grid-template-columns: minmax(0,1fr); gap: 2.5rem; padding-block: 2.5rem 3.5rem; } .cc12366 { max-width: 650px; } .c65f4cf { width: 100%; max-width: 600px; justify-self: center; } h1 { font-size: clamp(2.5rem,7vw,4rem); } .c956e76 { max-width: 60ch; } }
+    @media (max-width: 540px) { .c463541 { width: calc(100% - 2rem); } .c5cd209 { min-height: 76px; gap: .7rem; } .cf2d9a9 { font-size: .95rem; gap: .45rem; } .c98fc6d { width: 2rem; height: 2rem; } .c6332eb { gap: .6rem; } .c6332eb > a:not(.c912c9c) { display: none; } .c5cd209 .c912c9c { padding-inline: .85rem; font-size: .8rem; } .cf3de0e { padding: 1.25rem; } .c1f520b th, .c1f520b td { padding: .8rem .55rem; } .cc12366 > .c912c9c { width: 100%; } .c0bec0f { padding-top: 2.8rem; } .c67a47d { align-items: flex-start; flex-direction: column; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .c912c9c, .amount-field { transition: none; } .c912c9c:hover { transform: none; } }
+  </style>
 </head>
 <body>
-<div class="c463541">
-  <header class="cd6b123">
-    <div class="c10fd18"><span class="c766609" aria-hidden="true">⇄</span><span>Exchange</span></div>
-    <a class="ca4765b" href="dashboard/">Swap <span aria-hidden="true">↗</span></a>
+  <a class="c13e66a" href="#content">Skip to content</a>
+  <header class="c4b6eb6">
+    <nav class="c5cd209 c463541" aria-label="Primary navigation">
+      <a class="cf2d9a9" href="#top" aria-label="Swap station, top of page">
+        <span class="c98fc6d" aria-hidden="true"><svg class="c955b32" viewBox="0 0 24 24"><path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4"/></svg></span>
+        Swap station
+      </a>
+      <div class="c6332eb">
+        <a href="#facts">Key facts</a>
+        <a href="#sources">Sources</a>
+        <a class="c912c9c" href="dashboard/">Swap</a>
+      </div>
+    </nav>
   </header>
-  <div class="c6d7f5f"><nav class="c1abc64" aria-label="Breadcrumb"><a href="dashboard/">Home</a> <span>/</span> <span>Swaps</span> <span>/</span> <span>AsterDEX</span></nav></div>
-  <section class="c78ee6a" aria-labelledby="hero-title">
-    <div class="cfca351">A direct route to your next asset</div>
-    <h1 id="hero-title"><em>AsterDEX</em> Exchange</h1>
-    <p class="c3ffe64">AsterDEX is a decentralized exchange that brings spot token swaps and on-chain perpetual futures together under one self-custody trading venue. Instead of depositing funds into a company-controlled account, a trader connects a wallet directly, signs each order as an on-chain transaction, and keeps control of the underlying assets the entire time. This dual design — a swap engine for simple trades and a derivatives layer for leveraged positions — covers most of what a trader needs without switching between separate apps.</p>
-    <div class="c941f4b" role="group" aria-labelledby="exchange-title">
-      <div class="ccbad54">
-        <h2 id="exchange-title">Your exchange</h2>
-        <p>One route. Every detail in view.</p>
+  <div class="c463541" id="top">
+    <div class="cbfe7d9"><nav class="c1abc64" aria-label="Breadcrumb"><a href="dashboard/">Home</a> <span>/</span> <span>Swaps</span> <span>/</span> <span>AsterDEX</span></nav></div>
+    <section class="c78ee6a" aria-labelledby="hero-title">
+      <div class="cc12366">
+        <p class="cfca351">All swap routes</p>
+        <h1 id="hero-title"><em>AsterDEX</em> Exchange</h1>
+        <p class="c956e76">AsterDEX is a decentralized exchange that brings spot token swaps and on-chain perpetual futures together under one self-custody trading venue.</p>
+        <a class="c912c9c" href="dashboard/">Swap <svg class="c955b32" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
       </div>
-      <div class="cb29b26">
-        <div class="c870f3d">
-          <label class="c8468dc" for="amount">You pay</label>
-          <input id="amount" name="amount" type="number" inputmode="decimal" min="1" max="1000000" step="any" value="1000" required aria-describedby="amount-help amount-message" aria-invalid="false">
-          <span class="c5c815c" id="amount-help">From 1 to 1,000,000 units</span>
+      <aside class="c65f4cf c234eaf" data-from="ETH" aria-labelledby="widget-title">
+        <div class="c7f153d">
+          <h2 id="widget-title">Swap</h2>
+          <span class="c5323de">Best route</span>
         </div>
-        <div class="c5a7780" role="group" aria-label="Exchange route">
-          <span class="c02a2fd"><img src="assets/tokens/eth.svg" alt="Ethereum" width="28" height="28"></span>
-          <span class="c800262" role="img" aria-label="to">→</span>
-          <span class="c02a2fd"><img src="assets/tokens/usdc.svg" alt="USD Coin" width="28" height="28"></span>
+        <div class="c88fc0a">
+          <div class="cb492f7"><span class="c8468dc">You pay</span></div>
+          <div class="c0441ba">
+            <input id="pay-amount" class="c4843c8" type="number" inputmode="decimal" min="0" max="1000000000" step="any" value="1" aria-label="Amount you pay">
+            <span class="c140bc0">
+              <img class="c85943c" id="pay-ico" width="22" height="22" alt="" src="assets/tokens/eth.svg">
+              <select id="pay-token" class="c8bba4d" aria-label="Token you pay"></select>
+            </span>
+          </div>
+          <div class="c4bcdf5" id="pay-usd">—</div>
         </div>
-        <div class="c870f3d c9f4c19">
-          <label class="c8468dc" for="received">You receive</label>
-          <output id="received" for="amount" aria-live="polite" aria-atomic="true">—</output>
-          <span class="c5c815c">After network fee · destination units</span>
+        <button type="button" class="cbe886a" id="swap-switch" aria-label="Switch the two tokens">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v13m0 0-3-3m3 3 3-3M17 20V7m0 0-3 3m3-3 3 3"/></svg>
+        </button>
+        <div class="c88fc0a">
+          <div class="cb492f7"><span class="c8468dc">You receive</span></div>
+          <div class="c0441ba">
+            <output id="get-amount" class="c4843c8" for="pay-amount">—</output>
+            <span class="c140bc0">
+              <img class="c85943c" id="get-ico" width="22" height="22" alt="" src="assets/tokens/usdt.svg">
+              <select id="get-token" class="c8bba4d" aria-label="Token you receive"></select>
+            </span>
+          </div>
+          <div class="c4bcdf5" id="get-usd">—</div>
         </div>
-      </div>
-      <div class="cf582de">
-        <dl class="c8f2400">
-          <div><dt>Rate</dt><dd><output id="rate" for="amount">—</output></dd></div>
-          <div><dt>Network fee</dt><dd><output id="network-fee" for="amount">—</output></dd></div>
+        <dl class="c186d1d">
+          <div><dt>Rate</dt><dd id="swap-rate">—</dd></div>
+          <div><dt>Network fee</dt><dd id="swap-fee">0.3%</dd></div>
         </dl>
-        <a class="cf8cca8" href="dashboard/"><span>Swap</span><span aria-hidden="true">→</span></a>
-      </div>
-      <p class="c43fb97" id="amount-message" role="status" aria-live="polite"></p>
-    </div>
-  </section>
-  <ul class="c06e760" aria-label="Exchange features">
-    <li>Non-custodial</li>
-    <li>On-chain</li>
-    <li>No sign-up</li>
-    <li>Transparent fees</li>
-  </ul>
-  <section class="c78e5ae" aria-labelledby="facts-title">
-    <h2 class="caa8562" id="facts-title">Key facts</h2>
-    <div class="cfe16a2" tabindex="0" role="region" aria-label="Key facts table"><table class="c1f520b"><tbody><tr><th scope="row">Platform type</th><td>Decentralized exchange — spot swaps + on-chain perpetuals</td></tr>
+        <noscript><p class="c658420">Enable JavaScript to estimate the swap.</p></noscript>
+        <a class="c912c9c" href="dashboard/">Swap <svg class="c955b32" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+      </aside>
+    </section>
+    <section class="cf3de0e" id="facts" aria-labelledby="facts-title">
+      <h2 class="caa8562" id="facts-title">Key facts</h2>
+      <div class="cfe16a2"><table class="c1f520b"><tbody><tr><th scope="row">Platform type</th><td>Decentralized exchange — spot swaps + on-chain perpetuals</td></tr>
 <tr><th scope="row">Custody</th><td>Self-custody — funds stay in the trader's own wallet</td></tr>
 <tr><th scope="row">Order types</th><td>Market, limit, and leveraged perpetual orders</td></tr>
 <tr><th scope="row">Settlement</th><td>On-chain smart contracts, no custodial ledger</td></tr>
 <tr><th scope="row">Fees</th><td>Trading fee per fill plus a funding rate on open perpetual positions</td></tr>
 <tr><th scope="row">Access</th><td>No account or sign-up — connect a wallet to trade</td></tr></tbody></table></div>
-  </section>
-  <main class="ca0badf" id="content">
+    </section>
+  </div>
+  <main class="c0bec0f c463541" id="content">
     <section class="c577925"><h2 class="c4cc8d5">What AsterDEX Is</h2><div class="c4089bb"><strong>AsterDEX is a decentralized exchange that lets traders swap tokens and open on-chain perpetual positions directly from a self-custody wallet.</strong> Rather than routing orders through a centralized order book that takes custody of client funds, it settles every trade through smart contracts, so assets move between a trader's wallet and the protocol's liquidity without a custodial intermediary ever holding them. The platform pairs a spot swap engine with a derivatives layer, giving one interface for straightforward token swaps and for leveraged perpetual contracts. Because every action is a signed on-chain transaction, fills, funding payments and liquidations can all be checked independently on a <a href="https://etherscan.io/" rel="nofollow noopener" target="_blank">block explorer</a> rather than taken on trust from an internal company ledger.</div></section>
 <section class="c577925"><h2 class="c4cc8d5">AsterDEX's Spot and Perpetual Trading Products</h2><div class="c4089bb">The platform splits its trading surface into two linked products that share the same wallet connection and the same underlying liquidity philosophy: swap now, or open a position and hold it over time.<h3>Spot Swaps on AsterDEX</h3>The spot side works the way most decentralized exchanges do: a trader picks a token pair, the interface quotes a rate drawn from on-chain liquidity, and a single signed transaction exchanges one asset for another at that quoted rate minus slippage. The mechanics follow the same automated-market-maker logic described in the <a href="https://docs.uniswap.org/" rel="nofollow noopener" target="_blank">Uniswap documentation</a>, where price moves along a curve as each trade shifts the pool's balance rather than matching two counterparties directly.<h3>Perpetual Futures on AsterDEX</h3>The derivatives side lets a trader open a long or short position with leverage and no expiry date, settling gains, losses and periodic funding payments entirely on-chain. Because positions and collateral sit in transparent contracts, the size and health of open interest can be cross-checked against aggregated DeFi data such as the perpetuals metrics tracked on <a href="https://defillama.com/" rel="nofollow noopener" target="_blank">DefiLlama</a>, rather than relying on a platform's own reporting.</div></section>
 <section class="c577925"><h2 class="c4cc8d5">Order Types AsterDEX Supports</h2><div class="c4089bb">A trader here is not limited to a single way of entering or exiting a position; the interface exposes the standard order types a derivatives trader expects alongside the simple swap flow.<h3>Market and Limit Orders</h3>A market order fills immediately at the best available on-chain price, which suits a trader who wants certainty of execution over price precision. A limit order instead sits until the market reaches the chosen price, giving more control at the cost of a fill that may never arrive. Both order types build on the same order-book and matching concepts documented generally for a <a href="https://en.wikipedia.org/wiki/Decentralized_exchange" rel="nofollow noopener" target="_blank">decentralized exchange</a>, just implemented through this platform's own on-chain contracts.<h3>Leverage and Margin on Perpetual Markets</h3>On the perpetual side, a trader posts collateral and opens a position larger than that collateral through leverage. Higher leverage narrows the distance between entry price and liquidation price, so margin usage is the main lever a trader has over how much room a position carries before it is force-closed. Funding payments periodically transfer between long and short holders to keep the perpetual price tethered to the underlying spot price.</div></section>
@@ -1117,71 +241,66 @@ a.ce65b68:hover {
 <details class="c99b17e"><summary class="c4eb25e">Can I trade perpetuals and spot assets in the same place on AsterDEX?</summary><div class="c10bf9a">Yes. It links a spot swap engine with a perpetual futures layer, so a trader can swap into collateral and open a leveraged position without switching platforms.</div></details>
 <details class="c99b17e"><summary class="c4eb25e">What networks does AsterDEX run on?</summary><div class="c10bf9a">It deploys on EVM-compatible networks chosen for low gas and fast settlement, so both spot swaps and perpetual positions can be adjusted quickly and cheaply.</div></details>
   </main>
-  <section class="c58fb1e ca0badf" aria-labelledby="sources-title">
+  <section class="c9fef50 c463541" id="sources" aria-labelledby="sources-title">
     <h2 class="caa8562" id="sources-title">Sources</h2>
     <ul class="c1791d7"><li><a class="ce65b68" href="https://docs.uniswap.org/" rel="nofollow noopener" target="_blank">Uniswap documentation</a></li>
 <li><a class="ce65b68" href="https://etherscan.io/" rel="nofollow noopener" target="_blank">Etherscan</a></li>
 <li><a class="ce65b68" href="https://en.wikipedia.org/wiki/Decentralized_exchange" rel="nofollow noopener" target="_blank">Decentralized exchange — Wikipedia</a></li>
 <li><a class="ce65b68" href="https://ethereum.org/en/wallets/" rel="nofollow noopener" target="_blank">Ethereum.org wallets</a></li></ul>
   </section>
-  <footer class="c04dbef">
-    <span class="cdc8411">Exchange</span>
-    <p class="cf236f6">Updated <span>Updated Oct 10, 2026</span></p>
+  <footer class="c376867">
+    <div class="c67a47d c463541">
+      <p>Updated Oct 11, 2026</p>
+      <a href="#top">Back to top ↑</a>
+    </div>
   </footer>
-</div>
-<script>
-(() => {
-  'use strict';
-  const amount = document.getElementById('amount');
-  const received = document.getElementById('received');
-  const rateOutput = document.getElementById('rate');
-  const feeOutput = document.getElementById('network-fee');
-  const message = document.getElementById('amount-message');
-  const exchangeRate = 0.985;
-  const baseFee = 0.25;
-  const networkFactor = 0.001;
-  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 });
-  let timer;
-
-  function clearQuote() {
-    received.value = '—';
-    rateOutput.value = '—';
-    feeOutput.value = '—';
-  }
-
-  function updateQuote() {
-    clearTimeout(timer);
-    const raw = amount.value.trim();
-    const value = amount.valueAsNumber;
-    const valid = raw !== '' && Number.isFinite(value) && value >= 1 && value <= 1000000 && !amount.validity.badInput;
-    amount.setAttribute('aria-invalid', String(!valid));
-    message.dataset.invalid = String(!valid);
-    if (!valid) {
-      clearQuote();
-      const error = 'Enter an amount from 1 to 1,000,000.';
-      amount.setCustomValidity(error);
-      message.textContent = error;
-      return;
-    }
-    amount.setCustomValidity('');
-    const networkFee = baseFee + value * networkFactor;
-    const netAmount = Math.max(0, value * exchangeRate - networkFee);
-    received.value = formatter.format(netAmount);
-    rateOutput.value = '1 → ' + formatter.format(exchangeRate);
-    feeOutput.value = formatter.format(networkFee) + ' destination units';
-    message.textContent = '';
-  }
-
-  amount.addEventListener('input', () => {
-    clearTimeout(timer);
-    amount.setCustomValidity('');
-    clearQuote();
-    timer = setTimeout(updateQuote, 200);
-  });
-  amount.addEventListener('change', updateQuote);
-  amount.addEventListener('blur', updateQuote);
-  updateQuote();
-})();
-</script>
+  <script>
+    (() => {
+      const TOKENS = [
+        { s: 'ETH', f: 'eth', p: 2550 }, { s: 'BTC', f: 'btc', p: 62000 },
+        { s: 'USDT', f: 'usdt', p: 1 }, { s: 'USDC', f: 'usdc', p: 1 },
+        { s: 'BNB', f: 'bnb', p: 585 }, { s: 'SOL', f: 'sol', p: 145 },
+        { s: 'ARB', f: 'arb', p: 0.62 }, { s: 'OP', f: 'optimism', p: 1.65 },
+        { s: 'MATIC', f: 'polygon', p: 0.42 }, { s: 'AVAX', f: 'avalanche', p: 27 },
+        { s: 'SUI', f: 'sui', p: 1.35 }, { s: 'LTC', f: 'ltc', p: 72 },
+        { s: 'TRX', f: 'trx', p: 0.16 }, { s: 'XMR', f: 'xmr', p: 155 },
+        { s: 'XRP', f: 'xrp', p: 0.52 }, { s: 'ZEC', f: 'zec', p: 32 }
+      ];
+      const FEE = 0.003;
+      const $ = (id) => document.getElementById(id);
+      const payAmt = $('pay-amount'), payTok = $('pay-token'), payUsd = $('pay-usd'), payIco = $('pay-ico');
+      const getAmt = $('get-amount'), getTok = $('get-token'), getUsd = $('get-usd'), getIco = $('get-ico');
+      const rateEl = $('swap-rate');
+      const tok = (s) => TOKENS.find((t) => t.s === s);
+      const num = (n) => new Intl.NumberFormat('en', { maximumFractionDigits: n >= 1 ? 4 : 6 }).format(n);
+      const usd = (v) => '~$' + new Intl.NumberFormat('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
+      TOKENS.forEach((t) => {
+        [payTok, getTok].forEach((sel) => { const o = document.createElement('option'); o.value = t.s; o.textContent = t.s; sel.appendChild(o); });
+      });
+      const widget = document.querySelector('.c234eaf');
+      const defFrom = (widget && widget.dataset.from) || 'ETH';
+      const fromOk = TOKENS.some((t) => t.s === defFrom) ? defFrom : 'ETH';
+      payTok.value = fromOk;
+      getTok.value = (fromOk === 'USDT') ? 'ETH' : 'USDT';
+      const calc = () => {
+        const pf = tok(payTok.value), gt = tok(getTok.value);
+        payIco.src = 'assets/tokens/' + pf.f + '.svg'; payIco.alt = pf.s;
+        getIco.src = 'assets/tokens/' + gt.f + '.svg'; getIco.alt = gt.s;
+        rateEl.textContent = '1 ' + pf.s + ' ≈ ' + num(pf.p / gt.p) + ' ' + gt.s;
+        const a = parseFloat(payAmt.value);
+        if (!Number.isFinite(a) || a <= 0) { getAmt.textContent = '—'; payUsd.textContent = '—'; getUsd.textContent = '—'; return; }
+        const out = a * (pf.p / gt.p) * (1 - FEE);
+        getAmt.textContent = num(out) + ' ' + gt.s;
+        payUsd.textContent = usd(a * pf.p);
+        getUsd.textContent = usd(out * gt.p);
+      };
+      const distinct = (changed, other) => { if (changed.value === other.value) { other.value = (TOKENS.find((t) => t.s !== changed.value) || TOKENS[0]).s; } };
+      payAmt.addEventListener('input', calc);
+      payTok.addEventListener('change', () => { distinct(payTok, getTok); calc(); });
+      getTok.addEventListener('change', () => { distinct(getTok, payTok); calc(); });
+      $('swap-switch').addEventListener('click', () => { const t = payTok.value; payTok.value = getTok.value; getTok.value = t; calc(); });
+      calc();
+    })();
+  </script>
 </body>
 </html>
