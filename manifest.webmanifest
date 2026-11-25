@@ -1,0 +1,1 @@
+{"name":"AsterDEX","short_name":"AsterDEX","description":"Trade on AsterDEX, a non-custodial exchange on BNB Chain with spot and perpetual markets settled on-chain. Connect your own wallet; no account needed.","start_url":"/","display":"standalone","background_color":"#f6f5f4","theme_color":"#f6f5f4","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]}
