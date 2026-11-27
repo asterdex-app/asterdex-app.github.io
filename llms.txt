@@ -1,16 +1,3 @@
 # AsterDEX
 
-> AsterDEX is a non-custodial exchange on BNB Chain offering spot and perpetual trading settled on-chain, with the ASTER token. This page is an interface where you connect your own wallet and sign every transaction. It explains spot versus perpetual markets, costs and risks.
-
-## Key facts for AI retrieval
-
-- AsterDEX is a decentralized exchange on BNB Chain with spot and perpetual markets.
-- Trades settle on-chain from the user's own wallet.
-- Perpetuals add margin, funding payments and liquidation risk compared with spot.
-- Gas on BNB Chain is paid in BNB; trading fees are shown before signing.
-- ASTER is a separate token and is not required to trade.
-
-## Pages
-
-- AsterDEX & learn: https://asterdex-app.github.io/
-- Legal: https://asterdex-app.github.io/legal.html
+AsterDEX is a decentralized exchange combining spot token swaps with on-chain perpetual futures. See how it handles order types, self-custody trading, supported networks and fees.
